@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gradescope Code Navigator</title>
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #1d2329; --muted: #5d6874; --line: #d5d9de;
+    --field: #ffffff; --accent: #1558b0; --accent-fg: #ffffff; --err: #b3261e; --ok: #1b6e3c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1f24; --fg: #e8ebee; --muted: #9aa5b1; --line: #3a424b;
+      --field: #12151a; --accent: #6aa6ff; --accent-fg: #0c1118; --err: #ff8a80; --ok: #6fd39a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; width: 400px; padding: 14px; background: var(--bg); color: var(--fg);
+         font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  h1 { font-size: 15px; margin: 0 0 4px; font-weight: 650; }
+  p.hint { margin: 0 0 10px; color: var(--muted); }
+  label { display: block; font-weight: 600; margin: 10px 0 4px; }
+  textarea, input[type=text] {
+    width: 100%; padding: 7px 8px; border: 1px solid var(--line); border-radius: 4px;
+    background: var(--field); color: var(--fg);
+    font: 12px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  textarea { height: 210px; resize: vertical; white-space: pre; overflow: auto; }
+  textarea:focus, input:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .row { display: flex; gap: 10px; align-items: flex-end; }
+  .row > div { flex: 1; }
+  .row > div.narrow { flex: 0 0 90px; }
+  .actions { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+  button { font: inherit; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--line);
+           background: transparent; color: var(--fg); cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+  #status { margin-left: auto; font-size: 12px; }
+  #status.err { color: var(--err); }
+  #status.ok { color: var(--ok); }
+  .check { display: flex; gap: 6px; align-items: center; font-weight: 600; margin: 10px 0 0; }
+  small { color: var(--muted); display: block; margin-top: 3px; }
+</style>
+</head>
+<body>
+  <h1>Gradescope Code Navigator</h1>
+  <p class="hint">One filename regex per line; methods indented with <code>--</code> beneath it.</p>
+
+  <textarea id="config" spellcheck="false" placeholder="^CircularArray\.java$
+-- E remove\(int
+-- E remove\(\)
+^PriorityCircularArray\.java$
+-- void insert\(E
+-- E remove\(\)"></textarea>
+
+  <div class="row">
+    <div class="narrow">
+      <label for="hotkey">Hotkey</label>
+      <input type="text" id="hotkey" maxlength="1" value="\">
+    </div>
+    <div>
+      <label for="container">Code container selector (optional)</label>
+      <input type="text" id="container" placeholder="e.g. .my-code-viewer">
+    </div>
+  </div>
+  <label class="check"><input type="checkbox" id="enabled" checked> Enabled</label>
+  <small>Wrap a pattern as <code>/re/flags</code> to set flags. Files default to case-insensitive.</small>
+
+  <div class="actions">
+    <button class="primary" id="save">Save</button>
+    <button id="example">Load example</button>
+    <span id="status" role="status"></span>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

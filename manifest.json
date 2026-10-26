@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Gradescope Code Navigator",
+  "version": "0.2.1",
+  "description": "Press one key to step through files and methods (regex) while grading Gradescope programming submissions.",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Gradescope Code Navigator"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.gradescope.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
